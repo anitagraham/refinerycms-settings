@@ -20,6 +20,9 @@ en:
           yes_make_this_setting_restricted: "Yes, make this setting restricted only to superusers."
           help:
             restricted: This makes the setting only visible and editable by users who are superusers (like you).
+        filters:
+          filter: "Filter"
+          filter_by: "Filter by %{field_name}"
   activerecord:
     models:
       refinery/setting: setting

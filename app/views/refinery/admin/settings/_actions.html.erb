@@ -5,4 +5,6 @@
   <li>
     <%= action_label :add, refinery.new_admin_setting_path(dialog: true), t('.new') %>
   </li>
+  <%= render 'filters', url: refinery.admin_settings_path, filters: [:scoping, :restricted]   %>
+
 </ul>

@@ -1,0 +1,28 @@
+.filters h3 {
+  font-size : 1rem;
+}
+
+.filter_form {
+  display: flex;
+  flex-direction: column;
+  position : relative;
+
+  legend {
+    font-weight : bold;
+    color: #25A9F4;
+  }
+
+  .radio_button {
+    > * {
+      display    : inline-block;
+      margin-top : 5px;
+    }
+  }
+
+  .button {
+    position : absolute;
+    right    : 0;
+    bottom   : 0;
+  }
+}
+

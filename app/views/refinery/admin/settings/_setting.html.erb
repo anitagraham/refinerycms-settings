@@ -9,10 +9,13 @@
   }
 %>
 
-<li class='clearfix record <%= cycle("on", "on-hover") %>'>
+<li id='setting_<%= setting.id %>' class='clearfix record <%= cycle("on", "on-hover") %>'>
   <span class='title'>
     <%= t(setting.name, :scope => 'refinery.admin.settings.form.title', :default => setting.title) %>
-    <span class="preview">- <%= truncate(setting.value.to_s, :length => 40) %></span>
+    <span class="preview">
+      - <%= truncate(setting.value.to_s, :length => 40) %>
+      <em><%= " (#{setting.scoping})" if setting.scoping.present? %></em>
+    </span>
   </span>
   <span class='actions'>
     <%= action_icon(:info, '#', t('restricted', scope: 'refinery.admin.settings')) if setting.restricted %>

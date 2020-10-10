@@ -10,26 +10,30 @@ module ::Refinery
 
       before_action :sanitise_params, :only => [:create, :update]
 
+
       def new
         form_value_type = ((current_refinery_user.has_role?(:superuser) && params[:form_value_type]) || 'text_area')
         @setting = ::Refinery::Setting.new(:form_value_type => form_value_type)
       end
 
       def edit
-        @setting = ::Refinery::Setting.find(params[:id])
-
+        @setting = ::Refinery::Setting.friendly.find(params[:id])
         render :layout => false if request.xhr?
       end
 
     protected
       def find_all_settings
+
+        # send unique values of scopings to form
+        @scopings = ::Refinery::Setting.available_scopings
         @settings = ::Refinery::Setting.order('name ASC')
 
         unless current_refinery_user.has_role?(:superuser)
           @settings = @settings.where("restricted <> ? ", true)
         end
 
-        @settings
+        @settings.filter_by(params['filter']) if params['filter']
+
       end
 
       def search_all_settings
@@ -51,8 +55,8 @@ module ::Refinery
       end
 
       def setting_params
-        params.require(:setting).permit(:title, :name, :value, :destroyable,
-                                          :scoping, :restricted, :form_value_type)
+        params.require(:setting).permit(:title, :name, :value, :slug, :destroyable,
+                                          :scoping, :restricted, :form_value_type, :filter)
       end
 
     end

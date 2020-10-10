@@ -8,12 +8,14 @@ require File.expand_path("../dummy/config/environment", __FILE__)
 require 'rspec/rails'
 require 'capybara/rspec'
 
-Rails.backtrace_cleaner.remove_silencers!
-
 RSpec.configure do |config|
   config.mock_with :rspec
-  config.filter_run :focus => true
+  config.filter_run focus: true
   config.run_all_when_everything_filtered = true
+  config.backtrace_exclusion_patterns = %w(
+    rails actionpack railties capybara activesupport rack warden rspec actionview
+    activerecord dragonfly benchmark
+  ).map { |noisy| /#{noisy}/ }
 end
 
 # set javascript driver for capybara

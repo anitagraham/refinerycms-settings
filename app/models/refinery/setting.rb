@@ -3,6 +3,7 @@ require 'friendly_id'
 module Refinery
   class Setting < Refinery::Core::BaseModel
     extend FriendlyId
+    include Filterable
 
     friendly_id :name, use: [:slugged, :finders]
 
@@ -23,6 +24,7 @@ module Refinery
     before_save do |setting|
       setting.restricted = false if setting.restricted.nil?
     end
+
 
     class << self
       # Number of settings to show per page when using will_paginate
@@ -87,7 +89,17 @@ module Refinery
         # Return the value
         setting.value
       end
+
+      def available_scopings
+        distinct.pluck(:scoping)&.reject(&:blank?)
+      end
+
+      available_filters = [:scoping, :restricted]
+
     end
+
+    scope :filter_by_restricted, -> (restricted) {where restricted: restricted}
+    scope :filter_by_scoping, -> (scoping) { where scoping: scoping }
 
     def title
       self[:title].presence || auto_title

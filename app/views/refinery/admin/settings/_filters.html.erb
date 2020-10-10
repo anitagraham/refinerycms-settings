@@ -1,0 +1,10 @@
+<li class="filters" >
+  <form method='GET'
+        action='<%= url %>'
+        class='filter_form' >
+    <% filters.each do |filter| %>
+      <%= filter_form_fields(filter) %>
+    <% end %>
+    <%= submit_tag t('.filter') %>
+  </form >
+</li >
